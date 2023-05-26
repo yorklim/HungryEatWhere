@@ -5,8 +5,8 @@ import { Link } from "expo-router";
 import { supabase } from "../../lib/supabase";
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('admin@admin.com');
-    const [password, setPassword] = useState('123456');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errMsg, setErrMsg] = useState('');
     const handleSubmit = async () => {

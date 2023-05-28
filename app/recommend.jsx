@@ -25,42 +25,13 @@ export default function Recommend() {
 
     const updatePref = async () => {
 
-        if (selected == "1") {
-            const { error } = await supabase.from('pref').update({ 1 : pref[selected.toString()] + 1 , total : pref.total + 1}).eq('id', user.id);
+        const { error } = await supabase.from('pref').update({ [selected] : pref[selected.toString()] + 1 , total : pref.total + 1}).eq('id', user.id);
             if (error != null) {
                 setErrMsg(error.message);
                 return;
             }
-        } else if (selected == "2") {
-            const { error } = await supabase.from('pref').update({ 2 : pref[selected.toString()] + 1 , total : pref.total + 1}).eq('id', user.id);
-            if (error != null) {
-                setErrMsg(error.message);
-                return;
-            }
-        } else if (selected == "3") {
-            const { error } = await supabase.from('pref').update({ 3 : pref[selected.toString()] + 1 , total : pref.total + 1}).eq('id', user.id);
-            if (error != null) {
-                setErrMsg(error.message);
-                return;
-            }
-        } else if (selected == "4") {
-            const { error } = await supabase.from('pref').update({ 4 : pref[selected.toString()] + 1 , total : pref.total + 1}).eq('id', user.id);
-            if (error != null) {
-                setErrMsg(error.message);
-                return;
-            }
-        } else if (selected == "5") {
-            const { error } = await supabase.from('pref').update({ 5 : pref[selected.toString()] + 1 , total : pref.total + 1}).eq('id', user.id);
-            if (error != null) {
-                setErrMsg(error.message);
-                return;
-            }
-        } else {
-            return;
-        }
 
         router.replace('/')
-
     }
 
     async function fetchprofile() {
@@ -77,6 +48,8 @@ export default function Recommend() {
         if (pref.total == 0) {
             return "Please Setup Calibration in Profile"
         }
+
+        console.log(pref)
 
         setClicked(true)
         let num = getRandomArbitrary(0, pref.total - 1);

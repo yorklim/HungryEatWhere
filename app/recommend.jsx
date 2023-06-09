@@ -72,51 +72,51 @@ export default function Recommend() {
         var temp = selectcuisine();
         setSelected(temp);
         switch (temp) {
-            case "1":
+            case 1:
                 setTextdisplay("Chinese");
                 break;
             
-            case "2":
+            case 2:
                 setTextdisplay("Malaysian");
                 break;
 
-            case "3":
+            case 3:
                 setTextdisplay("Indian");
                 break;
             
-            case "4":
+            case 4:
                 setTextdisplay("Japanese");
                 break;
 
-            case "5":
+            case 5:
                 setTextdisplay("Korean");
                 break;
             
-            case "6":
+            case 6:
                 setTextdisplay("Vietnamese");
                 break;
 
-            case "7":
+            case 7:
                 setTextdisplay("Thai");
                 break;
             
-            case "8":
+            case 8:
                 setTextdisplay("Indonesian");
                 break;
 
-            case "9":
+            case 9:
                 setTextdisplay("Vegetarian");
                 break;
             
-            case "10":
+            case 10:
                 setTextdisplay("Western");
                 break;
 
-            case "11":
+            case 11:
                 setTextdisplay("Italian");
                 break;
             
-            case "12":
+            case 12:
                 setTextdisplay("Asian");
                 break;
             default:

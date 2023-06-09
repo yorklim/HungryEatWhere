@@ -247,7 +247,7 @@ export default function Setup() {
                 </View>
             </View>
 
-            <View>
+            <View style = {{marginBottom: 50}}>
                 <Button onPress={handleSubmit}>Submit</Button>
                 {errMsg !== "" && <Text>{errMsg}</Text>}
             </View>

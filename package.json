@@ -15,6 +15,7 @@
   "dependencies": {
     "@expo/webpack-config": "^18.0.1",
     "@react-native-async-storage/async-storage": "1.17.11",
+    "@react-native-community/slider": "4.4.2",
     "@supabase/supabase-js": "^2.22.0",
     "expo": "~48.0.15",
     "expo-constants": "~14.2.1",
@@ -25,6 +26,7 @@
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-native": "0.71.8",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-geolocation": "^1.0.0",
     "react-native-google-places-autocomplete": "^2.5.1",
     "react-native-maps": "1.3.2",
@@ -35,8 +37,7 @@
     "react-native-slider": "^0.11.0",
     "react-native-url-polyfill": "^1.3.0",
     "react-native-web": "~0.18.10",
-    "react-scale-text": "^1.2.2",
-    "@react-native-community/slider": "4.4.2"
+    "react-scale-text": "^1.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,5 +1,5 @@
 import { FlatList, Pressable, StyleSheet, View, Image } from "react-native";
-import { IconButton, Text } from "react-native-paper"
+import { IconButton, Modal, Text, FAB, Portal, PaperProvider, Button } from "react-native-paper"
 import { useRouter } from "expo-router";
 import * as Location from 'expo-location';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,8 +8,9 @@ import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { GOOGLE_API_KEY } from "../key";
-import Constants from "expo-constants";
 import { supabase } from "../lib/supabase";
+import Slider from "@react-native-community/slider";
+import DropDownPicker from "react-native-dropdown-picker";
 
 
 
@@ -25,22 +26,68 @@ export default function Nearbypage() {
     })
     const [currentloc, setCurrentloc] = useState({});
     const [restaurant, setRestaurant] = useState([]);
+    const [drestaurant, setDRestaurant] = useState([]);
+    const [allrestaurant, setAllRestaurant] = useState([]);
     const [refreshing, setRefereshing] = useState(false);
+    const [filterrefreshing, setFilterRefereshing] = useState(false);
+    const [distfilter, setDistFilter] = useState(0.5);
+    const [visible, setVisible] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [value,setValue] = useState('All');
+    const [items, setItems] = useState([
+        {label: 'All', value: 'All'},
+        {label: 'Chinese', value: 'Chinese'},
+        {label: 'Malaysian', value: 'Malaysian'},
+        {label: 'Indian', value: 'Indian'},
+        {label: 'Japanese', value: 'Japanese'},
+        {label: 'Korean', value: 'Korean'},
+        {label: 'Vietnamese', value: 'Vietnamese'},
+        {label: 'Thai', value: 'Thai'},
+        {label: 'Indonesian', value: 'Indonesian'},
+        {label: 'Vegetarian', value: 'Vegetarian'},
+        {label: 'Western', value: 'Western'},
+        {label: 'Italian', value: 'Italian'},
+        {label: 'Asian', value: 'Asian'},
+        {label: 'Beverages', value: 'Beverages'},
+
+    ])
+
 
     async function fetchrestaurant() {
-        let { data } = await supabase.from('restaurant').select().gt('lat', mapregion.latitude - 0.005).lt('lat', mapregion.latitude + 0.005)
-            .gt('lon', mapregion.longitude - 0.005).lt('lon', mapregion.longitude + 0.005);
-        setRestaurant(data.sort((a,b) => compareDistanceFromUser(a,b)));
+        let { data } = await supabase.from('restaurant').select().gt('lat', mapregion.latitude - 0.02).lt('lat', mapregion.latitude + 0.02)
+            .gt('lon', mapregion.longitude - 0.02).lt('lon', mapregion.longitude + 0.02);
+        setAllRestaurant(data.sort((a,b) => compareDistanceFromUser(a,b)));
+        setFilterRefereshing(true);
+    }
+
+    const applyfilter = () => {
+        setFilterRefereshing(true);
+        setVisible(false);
     }
 
     useEffect(() => {
-        fetchrestaurant();
-    }, [])
-
-    useEffect(() => {
-        fetchrestaurant();
+        setValue('All');
+        setDistFilter(0.5);
+        fetchrestaurant()
         setRefereshing(false);
     }, [refreshing])
+
+    useEffect(() => {
+        filterdistance(distfilter);
+        setFilterRefereshing(false);
+    }, [filterrefreshing])
+
+    useEffect(() => {
+        if (value !== 'All') {
+            setRestaurant(drestaurant.filter((a) => a.cuisine.some((a) => a == value)))
+        } else {
+            setRestaurant(drestaurant);
+        }
+    }, [drestaurant])
+
+    function filterdistance(dist) {
+        setDRestaurant(allrestaurant.filter((store) => dist >= getDistanceFromLatLonInKm(currentloc.latitude, currentloc.longitude, store.lat, store.lon)))
+    }
 
     const getLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -54,15 +101,15 @@ export default function Nearbypage() {
         setMapregion ({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.002
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.001
         });
 
         setCurrentloc ({
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.002
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.001
         });
 
         setRefereshing(true);
@@ -72,8 +119,8 @@ export default function Nearbypage() {
         return <Pressable onPress={()=> setMapregion({
             latitude: store.lat,
             longitude: store.lon,
-            latitudeDelta: 0.007,
-            longitudeDelta: 0.002})}>
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.001})}>
             <View style = {{flexDirection: 'row', alignItems: "center", borderBottomWidth:1}}>
                 <Image 
                     source = {{uri: store.image_url}}
@@ -96,40 +143,78 @@ export default function Nearbypage() {
     }
 
     return (
-        <SafeAreaView style ={{flex : 1}}>
-            <MapView
-                style ={{flex: 1, width: '100%', height: '100%'}}
-                provider={PROVIDER_GOOGLE}
-                region = {mapregion}
-            >
-                <Marker
-                    coordinate = {{
-                        latitude : currentloc.latitude,
-                        longitude: currentloc.longitude
+        <SafeAreaView style={{flex: 1}}>
+            <PaperProvider style = {{flex:1}}>
+                <Portal>
+                    <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: 'white', padding: 20, justifyContent:"center", alignItems:"center"}}>
+                        <Text>Filter Options</Text>
+                        <Text>Filter Cuisuine</Text>
+                        <DropDownPicker
+                            open = {open}
+                            value = {value}
+                            items= {items}
+                            setOpen = {setOpen}
+                            setValue={setValue}
+                            setItems={setItems}
+                        />
+                        <Text>Filter Distance</Text>
+                        <Text>Search Distance: {distfilter}km</Text>
+                        <View style = {styles.slider}>
+                            <Slider
+                                style ={{flex:1}}
+                                minimumValue={0}
+                                maximumValue={1}
+                                value={distfilter}
+                                onValueChange={(a) => setDistFilter(Math.trunc(a * 10)/10)}
+                                tapToSeek={false}
+                            />
+                        </View>
+                        <Button onPress={applyfilter} mode="outlined">Confirm</Button>
+                    </Modal>
+                </Portal>
+                
+                <View style = {{flex : 1}}>
+                    <MapView
+                        style ={{flex: 1, width: '100%', height: '100%'}}
+                        provider={PROVIDER_GOOGLE}
+                        region = {mapregion}
+                    >
+                        <Marker
+                            coordinate = {{
+                                latitude : currentloc.latitude,
+                                longitude: currentloc.longitude
 
-                    }}>
+                            }}>
 
-                    <Image
-                        style = {{height:30, width: 30}}
-                        source ={require("../assets/userpin.png")}/>
-                </Marker>
-
-                {restaurant.map((marker, index) => (
-                    <Marker
-                        key = {index}
-                        coordinate={{
-                            latitude: marker.lat,
-                            longitude: marker.lon
-                        }}
-                        title= {marker.name}>
                             <Image
                                 style = {{height:30, width: 30}}
-                                source ={require("../assets/restaurantpin2.png")}/>
-                    </Marker>
-                ))}
+                                source ={require("../assets/userpin.png")}/>
+                        </Marker>
 
-
-            </MapView>
+                        {restaurant.map((marker, index) => (
+                            <Marker
+                                key = {index}
+                                coordinate={{
+                                    latitude: marker.lat,
+                                    longitude: marker.lon
+                                }}
+                                title= {marker.name}>
+            
+                                <Image
+                                    style = {{height:30, width: 30}}
+                                    source ={require("../assets/restaurantpin2.png")}/>
+                            </Marker>
+                        ))}
+                    </MapView>
+    
+                <View style={{flex : 2}}>
+                    <FlatList
+                        data = {restaurant}
+                        renderItem = {({item}) => <RestaurantDisplay store={item}/>}
+                    />
+                </View>
+            </View>
+            
             <View style={styles.search}>
                 <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.back()}/>
                 {/* <TextInput style={{flex:1}} value = {address} onChangeText={setAddress}/>
@@ -142,18 +227,18 @@ export default function Nearbypage() {
                     setMapregion ({
                         latitude: details.geometry.location.lat,
                         longitude: details.geometry.location.lng,
-                        latitudeDelta: 0.007,
-                        longitudeDelta: 0.002
+                        latitudeDelta: 0.003,
+                        longitudeDelta: 0.001
                     });
 
                     setCurrentloc ({
                         latitude: details.geometry.location.lat,
                         longitude: details.geometry.location.lng,
-                        latitudeDelta: 0.007,
-                        longitudeDelta: 0.002
+                        latitudeDelta: 0.003,
+                        longitudeDelta: 0.001
                     });
             
-                    setRefereshing(true)
+                    setRefereshing(true);
                 }}
                 query={{
                     key: GOOGLE_API_KEY,
@@ -162,12 +247,14 @@ export default function Nearbypage() {
             />
                 <IconButton style = {{backgroundColor: 'white'}} icon = 'crosshairs-gps' onPress={() =>getLocation()}/>
             </View>
-            <View style={{flex : 2}}>
-                <FlatList
-                    data = {restaurant}
-                    renderItem = {({item}) => <RestaurantDisplay store={item}/>}
-                />
-            </View>
+            
+            <FAB
+                icon="filter-variant"
+                style= {styles.fab}
+                onPress={()=> setVisible(true)}
+                theme={{roundness:10}}
+            />
+        </PaperProvider>
         </SafeAreaView>
     )
 }
@@ -177,11 +264,20 @@ const styles = StyleSheet.create({
         flexDirection:"row", 
         alignItems:'flex-start',
         position:'absolute',
-        top: Constants.statusBarHeight,
         backgroundColor: "white",
     },
     input: {
         top: 5,
+    },
+    fab:{
+        position: "absolute",
+        margin: 30,
+        bottom: 0,
+        right: 0
+    },
+    slider: {
+        flexDirection:'row',
+        alignItems:'center',
     }
 });
 

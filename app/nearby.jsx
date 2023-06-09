@@ -13,6 +13,7 @@ import { supabase } from "../lib/supabase";
 
 
 
+
 export default function Nearbypage() {
     const router = useRouter();
     const [errMsg,setErrMsg] = useState('');
@@ -73,15 +74,16 @@ export default function Nearbypage() {
             longitude: store.lon,
             latitudeDelta: 0.007,
             longitudeDelta: 0.002})}>
-            <View style = {{flexDirection: 'row', alignItems: "center"}}>
+            <View style = {{flexDirection: 'row', alignItems: "center", borderBottomWidth:1}}>
                 <Image 
                     source = {{uri: store.image_url}}
                     style = {{
-                        height: 100,
-                        width: 100
+                        height: 90,
+                        width: 160,
+                        objectFit: 'contain',
                     }}
                 />
-                <View style= {{margin: 10}}>
+                <View style= {{margin: 10, flex : 1}}>
                 <Text>{store.address}</Text>
                 </View>
             </View>

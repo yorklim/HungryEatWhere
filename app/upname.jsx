@@ -46,6 +46,7 @@ export default function UpdateName() {
         </View>
         <View>
             <TextInput
+                placeholder="New Name"
                 autoCapitalize='none'
                 textContentType='username'
                 value={name}

@@ -1,5 +1,5 @@
 import { supabase } from '../../lib/supabase';
-import { Button , Text, TextInput, ActivityIndicator } from 'react-native-paper';
+import { Button , Text} from 'react-native-paper';
 import { StyleSheet , Image , ScrollView , View, RefreshControl, TouchableOpacity} from 'react-native';
 import { useState , useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';

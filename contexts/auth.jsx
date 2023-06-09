@@ -14,7 +14,7 @@ function useProtectedRoute(user) {
     const router = useRouter();
 
     useEffect(() => {
-        console.log(`useProtectedRoute useEffect called`);
+        //console.log(`useProtectedRoute useEffect called`);
         const inAuthGroup = segments[0] === "(auth)"
         if (!user && !inAuthGroup) {
             //console.log(`inAuthGroup: ${inAuthGroup}`);

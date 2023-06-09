@@ -39,7 +39,7 @@ export default function LoginPage() {
             <Text>Password</Text>
             <TextInput
                 placeholder="Password"
-                secureTextEntry
+                secureTextEntry={true}
                 autoCapitalize='none'
                 textContentType='password'
                 value={password}

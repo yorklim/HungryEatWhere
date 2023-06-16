@@ -53,6 +53,9 @@ export default function Setup() {
             <View>
                 <Text>If you have already done the set up before, resubmitting will reset all past data</Text>
                 <Text>Set value of cuisine to 0 if you do not want to be recommend that cuisine at all</Text>
+                <Text>Rating:</Text>
+                <Text>1 - Recommend me this seldomly</Text>
+                <Text>10- Recommend me this frequently</Text>
             </View>
 
             <View>

@@ -32,7 +32,10 @@ export default function Recommend() {
                 return;
             }
 
-        router.replace('/')
+        router.push({
+            pathname: '/reconearby',
+            params : {cuisine: textdisplay}
+        })
     }
 
     async function fetchprofile() {
@@ -128,7 +131,7 @@ export default function Recommend() {
     return (
         <SafeAreaView style = {{flex:1}}>
             <View style = {{backgroundColor:'white'}}>
-                <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.back()}/>
+                <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.replace('/')}/>
             </View>
             <View style = {{flex: 1, alignItems:'center', justifyContent:'center', alignContent:'center'}}>
                 <Text>{textdisplay}</Text>

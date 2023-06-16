@@ -17,7 +17,7 @@ export default function Homepage() {
             </View>
             <View style = {styles.content}>
 
-            <TouchableOpacity style = {styles.button} onPress={() => router.push('/recommend')}>
+            <TouchableOpacity style = {styles.button} onPress={() => router.replace('/recommend')}>
                     <Text style = {styles.buttontext}>Recommend Me</Text>
                 </TouchableOpacity>
 

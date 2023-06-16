@@ -1,6 +1,6 @@
 import { FlatList, Pressable, StyleSheet, View, Image, TouchableOpacity, Linking } from "react-native";
 import { IconButton, Modal, Text, FAB, Portal, PaperProvider, Button } from "react-native-paper"
-import { useRouter } from "expo-router";
+import { useRouter, useSearchParams } from "expo-router";
 import * as Location from 'expo-location';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
@@ -10,7 +10,6 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { GOOGLE_API_KEY } from "../key";
 import { supabase } from "../lib/supabase";
 import Slider from "@react-native-community/slider";
-import DropDownPicker from "react-native-dropdown-picker";
 
 
 
@@ -32,25 +31,8 @@ export default function Nearbypage() {
     const [filterrefreshing, setFilterRefereshing] = useState(false);
     const [distfilter, setDistFilter] = useState(0.5);
     const [visible, setVisible] = useState(false);
-    const [open, setOpen] = useState(false);
     const [value,setValue] = useState('All');
-    const [items, setItems] = useState([
-        {label: 'All', value: 'All'},
-        {label: 'Chinese', value: 'Chinese'},
-        {label: 'Malaysian', value: 'Malaysian'},
-        {label: 'Indian', value: 'Indian'},
-        {label: 'Japanese', value: 'Japanese'},
-        {label: 'Korean', value: 'Korean'},
-        {label: 'Vietnamese', value: 'Vietnamese'},
-        {label: 'Thai', value: 'Thai'},
-        {label: 'Indonesian', value: 'Indonesian'},
-        {label: 'Vegetarian', value: 'Vegetarian'},
-        {label: 'Western', value: 'Western'},
-        {label: 'Italian', value: 'Italian'},
-        {label: 'Asian', value: 'Asian'},
-        {label: 'Beverages', value: 'Beverages'},
-
-    ])
+    const {cuisine} = useSearchParams();
 
 
     async function fetchrestaurant() {
@@ -62,11 +44,10 @@ export default function Nearbypage() {
 
     const applyfilter = () => {
         setFilterRefereshing(true);
-        setVisible(false);
     }
 
     useEffect(() => {
-        setValue('All');
+        setValue(cuisine);
         setDistFilter(0.5);
         fetchrestaurant()
         setRefereshing(false);
@@ -78,11 +59,7 @@ export default function Nearbypage() {
     }, [filterrefreshing])
 
     useEffect(() => {
-        if (value !== 'All') {
-            setRestaurant(drestaurant.filter((a) => a.cuisine.some((a) => a == value)))
-        } else {
-            setRestaurant(drestaurant);
-        }
+        setRestaurant(drestaurant.filter((a) => a.cuisine.some((a) => a == value)))
     }, [drestaurant])
 
     function filterdistance(dist) {
@@ -151,15 +128,6 @@ export default function Nearbypage() {
                 <Portal>
                     <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: 'white', padding: 20, justifyContent:"center", alignItems:"center"}}>
                         <Text>Filter Options</Text>
-                        <Text>Filter Cuisuine</Text>
-                        <DropDownPicker
-                            open = {open}
-                            value = {value}
-                            items= {items}
-                            setOpen = {setOpen}
-                            setValue={setValue}
-                            setItems={setItems}
-                        />
                         <Text>Filter Distance</Text>
                         <Text>Search Distance: {distfilter}km</Text>
                         <View style = {styles.slider}>
@@ -211,15 +179,20 @@ export default function Nearbypage() {
                     </MapView>
     
                 <View style={{flex : 2}}>
+                    <View style = {{borderBottomWidth: 1}}>
+                        <Text style = {{fontWeight:'bold', fontSize:20, marginTop: 5, marginBottom: 5}}
+                        > Finding {cuisine} Cuisine Around You!</Text>
+                    </View>
                     <FlatList
                         data = {restaurant}
                         renderItem = {({item}) => <RestaurantDisplay store={item}/>}
+                        ListEmptyComponent = {<Text>No Nearby Restaurant with Current Filter, Try Increasing Filter Distance</Text>}
                     />
                 </View>
             </View>
             
             <View style={styles.search}>
-                <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.back()}/>
+                <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.replace('/')}/>
                 {/* <TextInput style={{flex:1}} value = {address} onChangeText={setAddress}/>
                 <IconButton icon = 'arrow-right' onPress={geocode}/> */}
                 <GooglePlacesAutocomplete

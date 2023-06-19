@@ -1,6 +1,6 @@
 import { FlatList, Pressable, StyleSheet, View, Image, TouchableOpacity, Linking } from "react-native";
 import { IconButton, Modal, Text, FAB, Portal, PaperProvider, Button } from "react-native-paper"
-import { useRouter, useSearchParams } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import * as Location from 'expo-location';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
@@ -14,7 +14,7 @@ import Slider from "@react-native-community/slider";
 
 
 
-export default function Reconearby() {
+export default function Recodaily() {
     const router = useRouter();
     const [errMsg,setErrMsg] = useState('');
     const [mapregion, setMapregion] = useState({
@@ -31,8 +31,8 @@ export default function Reconearby() {
     const [filterrefreshing, setFilterRefereshing] = useState(false);
     const [distfilter, setDistFilter] = useState(0.5);
     const [visible, setVisible] = useState(false);
-    const [value,setValue] = useState('All');
-    const {cuisine} = useSearchParams();
+    const {subject, description} = useLocalSearchParams();
+
 
 
     async function fetchrestaurant() {
@@ -48,7 +48,6 @@ export default function Reconearby() {
     }
 
     useEffect(() => {
-        setValue(cuisine);
         setDistFilter(0.5);
         fetchrestaurant()
         setRefereshing(false);
@@ -60,7 +59,9 @@ export default function Reconearby() {
     }, [filterrefreshing])
 
     useEffect(() => {
-        setRestaurant(drestaurant.filter((a) => a.cuisine.some((a) => a == value)))
+        setRestaurant(drestaurant.filter((a) => 
+        a.cuisine.some((a) => a == subject) || 
+        a.name.toLowerCase().match(subject.toLocaleLowerCase())))
     }, [drestaurant])
 
     function filterdistance(dist) {
@@ -182,7 +183,8 @@ export default function Reconearby() {
                 <View style={{flex : 2}}>
                     <View style = {{borderBottomWidth: 1}}>
                         <Text style = {{fontWeight:'bold', fontSize:20, marginTop: 5, marginBottom: 5}}
-                        > Finding {cuisine} Cuisine Around You!</Text>
+                        // eslint-disable-next-line react/no-unescaped-entities
+                        > Finding "{description}" Related Restaurants Around You!</Text>
                     </View>
                     <FlatList
                         data = {restaurant}

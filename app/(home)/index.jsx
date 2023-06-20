@@ -17,11 +17,10 @@ export default function Homepage() {
 
     async function fetchday() {
         let today = new Date();
-        //today = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
-        today = '6/6/2023'
+        today = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
         let { data } = await supabase.from('foodday').select().eq('start', [today]);
 
-        if (data[0].end !== undefined) {
+        if (data[0] !== undefined) {
             setDaily(data[0]);
         }
     }
@@ -45,7 +44,7 @@ export default function Homepage() {
             <View style = {styles.topbar}>
                 <Text style = {{flex : 1 , marginLeft:10, fontSize:25}}>Home Page</Text>
                 <Image style = {styles.icon}
-                    source = {require("../../assets/profilepic.png")} width ='100' height='100'/>
+                    source = {require("../../assets/profilepic.png")}/>
             </View>
             <View style = {styles.content}>
                 <TouchableOpacity onPress={() => dailypress()}>

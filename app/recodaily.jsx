@@ -23,7 +23,7 @@ export default function Recodaily() {
         latitudeDelta: 0.007,
         longitudeDelta: 0.002
     })
-    const [currentloc, setCurrentloc] = useState({});
+    const [currentloc, setCurrentloc] = useState();
     const [restaurant, setRestaurant] = useState([]);
     const [drestaurant, setDRestaurant] = useState([]);
     const [allrestaurant, setAllRestaurant] = useState([]);
@@ -153,7 +153,7 @@ export default function Recodaily() {
                         provider={PROVIDER_GOOGLE}
                         region = {mapregion}
                     >
-                        <Marker
+                        {currentloc !== undefined && <Marker
                             coordinate = {{
                                 latitude : currentloc.latitude,
                                 longitude: currentloc.longitude
@@ -163,7 +163,7 @@ export default function Recodaily() {
                             <Image
                                 style = {{height:30, width: 30}}
                                 source ={require("../assets/userpin.png")}/>
-                        </Marker>
+                        </Marker>}
 
                         {restaurant.map((marker, index) => (
                             <Marker

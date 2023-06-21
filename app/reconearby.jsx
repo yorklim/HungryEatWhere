@@ -23,7 +23,7 @@ export default function Reconearby() {
         latitudeDelta: 0.007,
         longitudeDelta: 0.002
     })
-    const [currentloc, setCurrentloc] = useState({});
+    const [currentloc, setCurrentloc] = useState();
     const [restaurant, setRestaurant] = useState([]);
     const [drestaurant, setDRestaurant] = useState([]);
     const [allrestaurant, setAllRestaurant] = useState([]);
@@ -152,17 +152,18 @@ export default function Reconearby() {
                         provider={PROVIDER_GOOGLE}
                         region = {mapregion}
                     >
-                        <Marker
-                            coordinate = {{
-                                latitude : currentloc.latitude,
-                                longitude: currentloc.longitude
+                        
+                    {currentloc !== undefined && <Marker
+                        coordinate = {{
+                            latitude : currentloc.latitude,
+                            longitude: currentloc.longitude
 
-                            }}>
+                        }}>
 
-                            <Image
-                                style = {{height:30, width: 30}}
-                                source ={require("../assets/userpin.png")}/>
-                        </Marker>
+                        <Image
+                            style = {{height:30, width: 30}}
+                            source ={require("../assets/userpin.png")}/>
+                    </Marker>}
 
                         {restaurant.map((marker, index) => (
                             <Marker

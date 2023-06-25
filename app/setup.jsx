@@ -29,7 +29,7 @@ export default function Setup() {
         const total = value1 + value2 + value3 + value4 + value5 + value6 + value7 + value8 + value9 + value10 + value11 + value12;
 
         if (total == 0) {
-            setErrMsg("New name cannot be Values cannot be 0 for all cuisines");
+            setErrMsg("Values cannot be 0 for all cuisines");
             return;
         }
 

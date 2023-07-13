@@ -17,7 +17,7 @@ export default function Homepage() {
 
     async function fetchday() {
         let today = new Date();
-        today = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
+        today = today.getDate() + "/" + (today.getMonth()+ 1) + "/" + today.getFullYear();
         let { data } = await supabase.from('foodday').select().eq('start', [today]);
 
         if (data[0] !== undefined) {

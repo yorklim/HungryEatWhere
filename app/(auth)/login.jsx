@@ -44,7 +44,10 @@ export default function LoginPage() {
                 textContentType='password'
                 value={password}
                 onChangeText={setPassword} />
-            <Button onPress={handleSubmit}>Login</Button>
+            <Button 
+                onPress={handleSubmit}
+                testID="loginButton"
+            >Login</Button>
             {errMsg !== "" && <Text>{errMsg}</Text>}
             {loading && <ActivityIndicator />}
             <Link href="/register">

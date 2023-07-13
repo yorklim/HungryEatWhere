@@ -1,4 +1,4 @@
-import { FlatList, Pressable, StyleSheet, View, Image, TouchableOpacity, Linking } from "react-native";
+import { FlatList, Pressable, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { IconButton, Modal, Text, FAB, Portal, PaperProvider, Button } from "react-native-paper"
 import { useRouter, useSearchParams } from "expo-router";
 import * as Location from 'expo-location';
@@ -93,6 +93,13 @@ export default function Reconearby() {
         setRefereshing(true);
     }
 
+    const gorestaurantinfo = (store) => {
+        router.push({
+            pathname: '/restaurantinfo',
+            params: {lon: currentloc.longitude, lat: currentloc.latitude, id: store.id_source, slat: store.lat, slon: store.lon}
+        })
+    }
+
     function RestaurantDisplay({ store }) {
         return <Pressable onPress={()=> setMapregion({
             latitude: store.lat,
@@ -110,7 +117,7 @@ export default function Reconearby() {
                 />
                 <View style= {{margin: 10, flex : 1}}>
                 <Text>{store.address}</Text>
-                <TouchableOpacity onPress= {()=> Linking.openURL("https://www.google.com/search?q=" + [store.address])}>
+                <TouchableOpacity onPress= {()=> gorestaurantinfo(store)}>
                     <Text style= {{color:"blue"}}>More Info</Text>
                 </TouchableOpacity>
                 <Text>{Math.round(getDistanceFromLatLonInM(currentloc.latitude, currentloc.longitude, store.lat, store.lon))}m</Text>

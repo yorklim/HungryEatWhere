@@ -59,8 +59,8 @@ export default function Homepage() {
                     <Text style = {styles.buttontext}>Nearby Restuarant</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style = {styles.button} onPress={() => router.push('/')}>
-                    <Text style = {styles.buttontext}>NIL</Text>
+                <TouchableOpacity style = {styles.button} onPress={() => router.push('/history')}>
+                    <Text style = {styles.buttontext}>Recommendation History</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

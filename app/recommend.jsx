@@ -26,7 +26,16 @@ export default function Recommend() {
 
     const updatePref = async () => {
 
-        const { error } = await supabase.from('pref').update({ [selected] : pref[selected.toString()] + 1 , total : pref.total + 1}).eq('id', user.id);
+        if (pref.hist == null) {
+            pref.hist = new Array()
+        }
+
+        const temp = new Array(selected, new Date().toString());
+        console.log(temp)
+        
+        pref.hist.push(temp);
+
+        const { error } = await supabase.from('pref').update({ [selected] : pref[selected.toString()] + 1 , total : pref.total + 1, hist : pref.hist}).eq('id', user.id);
             if (error != null) {
                 setErrMsg(error.message);
                 return;

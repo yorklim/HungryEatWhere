@@ -121,6 +121,15 @@ export default function Nearbypage() {
         })
     }
 
+    function getRandomArbitrary(min, max) {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+
+    const randomselect = () => {
+        const rng = getRandomArbitrary(0, restaurant.length - 1)
+        return gorestaurantinfo(restaurant[rng]);
+    }
+
     function RestaurantDisplay({ store }) {
         return <Pressable onPress={()=> setMapregion({
             latitude: store.lat,
@@ -266,6 +275,13 @@ export default function Nearbypage() {
                 onPress={()=> setVisible(true)}
                 theme={{roundness:10}}
             />
+
+            {restaurant.length !== 0 && <FAB
+                label="Random"
+                style= {styles.random}
+                onPress={()=> randomselect()}
+                theme={{roundness:10}}
+            />}
         </PaperProvider>
         </SafeAreaView>
     )
@@ -283,13 +299,17 @@ const styles = StyleSheet.create({
     },
     fab:{
         position: "absolute",
-        margin: 30,
         bottom: 0,
-        right: 0
+        right: "5%"
     },
     slider: {
         flexDirection:'row',
         alignItems:'center',
+    },
+    random: {
+        position: "absolute",
+        bottom: 0,
+        alignSelf: 'center'
     }
 });
 

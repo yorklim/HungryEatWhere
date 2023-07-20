@@ -127,10 +127,7 @@ export default function Recommend() {
             case 11:
                 setTextdisplay("Italian");
                 break;
-            
-            case 12:
-                setTextdisplay("Asian");
-                break;
+
             default:
                 setTextdisplay("Error");
         }

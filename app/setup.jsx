@@ -20,20 +20,19 @@ export default function Setup() {
     const [value9,setValue9] = useState(0);
     const [value10,setValue10] = useState(0);
     const [value11,setValue11] = useState(0);
-    const [value12,setValue12] = useState(0);
     const [errMsg, setErrMsg] = useState('');
     const { user } = useAuth();
 
     const handleSubmit = async () => {
 
-        const total = value1 + value2 + value3 + value4 + value5 + value6 + value7 + value8 + value9 + value10 + value11 + value12;
+        const total = value1 + value2 + value3 + value4 + value5 + value6 + value7 + value8 + value9 + value10 + value11;
 
         if (total == 0) {
             setErrMsg("Values cannot be 0 for all cuisines");
             return;
         }
 
-        const { error } = await supabase.from('pref').update({1:value1, 2:value2, 3:value3, 4:value4, 5:value5, 6:value6, 7:value7, 8:value8, 9:value9, 10:value10, 11:value11, 12:value12, total:total}).eq('id', user.id)
+        const { error } = await supabase.from('pref').update({1:value1, 2:value2, 3:value3, 4:value4, 5:value5, 6:value6, 7:value7, 8:value8, 9:value9, 10:value10, 11:value11, total:total}).eq('id', user.id)
 
         if (error != null) {
             setErrMsg(error.message);
@@ -233,22 +232,7 @@ export default function Setup() {
                     <Text style = {{margin: 10}}>10</Text>
                 </View>
             </View>
-            
-            <View>
-                <Text>Asian : {value12}</Text>
-                <View style = {styles.slider}>
-                    <Text style = {{margin: 10}}>0</Text>
-                    <Slider
-                        style = {{flex: 1}}
-                        minimumValue={0}
-                        maximumValue={10}
-                        value={value12}
-                        onValueChange={(a) => setValue12(Math.trunc(a))}
-                        tapToSeek={false}
-                    />
-                    <Text style = {{margin: 10}}>10</Text>
-                </View>
-            </View>
+        
 
             <View style = {{marginBottom: 50}}>
                 <Button onPress={handleSubmit}>Submit</Button>

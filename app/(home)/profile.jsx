@@ -117,9 +117,8 @@ export default function ProfileScreen() {
                         <Button onPress={handleSubmit}>Submit</Button>
                         {loading && <ActivityIndicator />}
                     </View> */}
-
-                    <Button onPress={() => supabase.auth.signOut()}>Logout</Button>
                 </View>
+                <Button onPress={() => supabase.auth.signOut()}><Text style= {styles.logout}>Logout</Text></Button>
             </View>
         </SafeAreaView>
     )
@@ -131,7 +130,7 @@ const styles = StyleSheet.create( {
         flexDirection: "column",
         backgroundColor: "#FFEDD2",
     },
-    
+
     headerText: {
         flex : 1,
         marginLeft: 30, 
@@ -144,11 +143,11 @@ const styles = StyleSheet.create( {
         backgroundColor: '#FFEDD2',
         flexDirection: 'row',
         alignItems:'center',
-        height: 60
+        height: 70
     },
 
     pic: {
-        height:'90%',
+        height: 54,
         width: undefined,
         aspectRatio: 1,
         borderRadius: 10,
@@ -156,6 +155,7 @@ const styles = StyleSheet.create( {
         borderColor: 'black',
         margin: 2,
         marginRight: 10,
+        marginBottom: 12,
     },
 
     button : {
@@ -182,8 +182,13 @@ const styles = StyleSheet.create( {
         justifyContent: "center",
     },
     content: {
-        height: "55%",
+        height: "45%",
         justifyContent: "space-around",
+    },
+    logout: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "white",
     }
    
 });

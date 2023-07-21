@@ -81,51 +81,46 @@ export default function ProfileScreen() {
 
     return (
         <SafeAreaView style = {styles.container}>
-            <ScrollView
-            contentContainerStyle = {{gap:10}}
-            refreshControl={
-                <RefreshControl
-                onRefresh={() => setRefreshing(true)}
-                refreshing={refreshing}
-                />
-            }
-            >
-            <View style = {styles.profile}>
-                <TouchableOpacity onPress={() => router.push('/uppic')}>
-                    <Image
-                        style = {styles.icon}
-                        source = {{uri:profile.image_url}}
-                    />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => router.push('/upname')}>
-                    <Text style = {styles.name}> {profile.name} </Text>
-                </TouchableOpacity >
+            <View style = {styles.topbar}>
+                <Text style = {styles.headerText}>Profile: {profile.name}</Text>
+                <Image style = {styles.pic}
+                    source = {require("../../assets/profilepic.png")}/>
             </View>
 
-            <View>
-                <TouchableOpacity style = {styles.button} onPress={() => router.push('/setup')}>
-                    <Text style = {styles.buttontext}>Calibrate Preference</Text>
-                </TouchableOpacity>
+            <View style= {styles.subcontainer}>
+                <View style= {styles.content}>
+                    <TouchableOpacity style = {styles.button} onPress={() => router.push('/uppic')}>
+                            <Text style = {styles.buttonText}>Edit Profile Picture</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style = {styles.button} onPress={() => router.push('/upname')}>
+                            <Text style = {styles.buttonText}>Edit Nickname</Text>
+                    </TouchableOpacity >
+
+                    <View>
+                        <TouchableOpacity style = {styles.button} onPress={() => router.push('/setup')}>
+                            <Text style = {styles.buttonText}>Calibrate Preference</Text>
+                        </TouchableOpacity>
+                    </View>
+                    
+                    {/* <View>
+                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                        <Text>New Username: </Text>
+                        <TextInput
+                            autoCapitalize='none'
+                            textContentType='username'
+                            value={name}
+                            onChangeText={setName}
+                        />
+                        {errMsg !== '' && <Text>{errMsg}</Text>}
+                        <Button onPress={handleAddImage}>Change Image</Button>
+                        <Button onPress={handleSubmit}>Submit</Button>
+                        {loading && <ActivityIndicator />}
+                    </View> */}
+
+                    <Button onPress={() => supabase.auth.signOut()}>Logout</Button>
+                </View>
             </View>
-
-            {/* <View>
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-                <Text>New Username: </Text>
-                <TextInput
-                    autoCapitalize='none'
-                    textContentType='username'
-                    value={name}
-                    onChangeText={setName}
-                />
-                {errMsg !== '' && <Text>{errMsg}</Text>}
-                <Button onPress={handleAddImage}>Change Image</Button>
-                <Button onPress={handleSubmit}>Submit</Button>
-                {loading && <ActivityIndicator />}
-            </View> */}
-
-            <Button onPress={() => supabase.auth.signOut()}>Logout</Button>
-            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -134,39 +129,61 @@ const styles = StyleSheet.create( {
     container: {
         flex: 1,
         flexDirection: "column",
+        backgroundColor: "#FFEDD2",
+    },
+    
+    headerText: {
+        flex : 1,
+        marginLeft: 30, 
+        fontSize: 30,
+        fontWeight: "bold",
+        color: "#FB9999",
     },
 
-    profile: {
+    topbar: {
+        backgroundColor: '#FFEDD2',
         flexDirection: 'row',
-        alignItems : 'center',
-        backgroundColor : 'orange'
+        alignItems:'center',
+        height: 60
     },
 
-    icon: {
-        height: 80,
-        width: 80,
-        borderRadius: 40,
-        margin: 10,
+    pic: {
+        height:'90%',
+        width: undefined,
+        aspectRatio: 1,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: 'black',
-        borderWidth : 1,
-    },
-
-    name: {
-        fontSize: 20
+        margin: 2,
+        marginRight: 10,
     },
 
     button : {
         height: 100,
         width: '90%',
         borderRadius: 25,
-        borderColor: 'black',
+        borderColor: 'white',
         borderWidth: 2,
-        backgroundColor: 'orange',
+        backgroundColor: '#FFCECE',
         justifyContent: 'center',
         alignItems:'center',
-        underlayColor : 'orange',
+        underlayColor : '#FFCECE',
         marginLeft: '5%',
     },
 
-    
+    buttonText: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#643939",
+    },
+    subcontainer: {
+        height: "100%",
+        backgroundColor: "#FB9999",
+        justifyContent: "center",
+    },
+    content: {
+        height: "55%",
+        justifyContent: "space-around",
+    }
+   
 });

@@ -45,17 +45,17 @@ export default function LoginPage() {
                     style={styles.inputContainer} />
             </View>
             <View style={styles.subContainer}>
-            <View style= {{margin: 5}}>
-                <Text style={styles.inputText}>Password</Text>
-            </View>
-            <TextInput
-                placeholder="Password"
-                secureTextEntry={true}
-                autoCapitalize='none'
-                textContentType='password'
-                value={password}
-                onChangeText={setPassword}
-                style={styles.inputContainer} />
+                <View style= {{margin: 5}}>
+                    <Text style={styles.inputText}>Password</Text>
+                </View>
+                <TextInput
+                    placeholder="Password"
+                    secureTextEntry={true}
+                    autoCapitalize='none'
+                    textContentType='password'
+                    value={password}
+                    onChangeText={setPassword}
+                    style={styles.inputContainer} />
             </View>
             <View>
                 <View style={styles.buttonContainer}>
@@ -65,9 +65,7 @@ export default function LoginPage() {
                         <Text style= {styles.textButton}>Login</Text>
                     </TouchableOpacity>
                     <Link href="/register">
-                        <TouchableOpacity>
                         <Text style= {styles.textButton}>Go to register</Text>
-                        </TouchableOpacity>
                     </Link>
                     
                 </View>
@@ -134,3 +132,4 @@ const styles = StyleSheet.create({
         color: 'white',
     }
 })
+

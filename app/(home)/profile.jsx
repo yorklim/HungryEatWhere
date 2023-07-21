@@ -9,7 +9,7 @@ import { useRouter } from 'expo-router';
 
 export default function ProfileScreen() {
     // const [name, setName] = useState('Username');
-    // const [image, setImage] = useState(null);
+    const [image, setImage] = useState(null);
     // const [errMsg, setErrMsg] = useState('');
     // const [loading, setLoading] = useState(false);
     const [profile, setProfile] = useState([]);
@@ -22,6 +22,7 @@ export default function ProfileScreen() {
         let { data } = await supabase.from('profile').select('*');
         setRefreshing(false);
         setProfile(data[0]);
+        setImage(data[0].image_url);
     }
 
     useEffect(() => {
@@ -82,12 +83,14 @@ export default function ProfileScreen() {
     return (
         <SafeAreaView style = {styles.container}>
             <View style = {styles.topbar}>
-                <Text style = {styles.headerText}>Profile: {profile.name}</Text>
-                <Image style = {styles.pic}
-                    source = {require("../../assets/profilepic.png")}/>
+                <Text style = {styles.headerText}>Profile</Text>
             </View>
 
+
             <View style= {styles.subcontainer}>
+                <Image style = {styles.pic}
+                    source = {{uri:image}}/>
+                <Text style= {styles.profile}>{profile.name}</Text>
                 <View style= {styles.content}>
                     <TouchableOpacity style = {styles.button} onPress={() => router.push('/uppic')}>
                             <Text style = {styles.buttonText}>Edit Profile Picture</Text>
@@ -102,7 +105,7 @@ export default function ProfileScreen() {
                             <Text style = {styles.buttonText}>Calibrate Preference</Text>
                         </TouchableOpacity>
                     </View>
-                    
+                </View>
                     {/* <View>
                         {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
                         <Text>New Username: </Text>
@@ -117,7 +120,6 @@ export default function ProfileScreen() {
                         <Button onPress={handleSubmit}>Submit</Button>
                         {loading && <ActivityIndicator />}
                     </View> */}
-                </View>
                 <Button onPress={() => supabase.auth.signOut()}><Text style= {styles.logout}>Logout</Text></Button>
             </View>
         </SafeAreaView>
@@ -147,7 +149,7 @@ const styles = StyleSheet.create( {
     },
 
     pic: {
-        height: 54,
+        height: "30%",
         width: undefined,
         aspectRatio: 1,
         borderRadius: 10,
@@ -156,6 +158,7 @@ const styles = StyleSheet.create( {
         margin: 2,
         marginRight: 10,
         marginBottom: 12,
+        alignSelf: "center"
     },
 
     button : {
@@ -179,16 +182,22 @@ const styles = StyleSheet.create( {
     subcontainer: {
         height: "100%",
         backgroundColor: "#FB9999",
-        justifyContent: "center",
+        paddingTop: 20
+    },
+
+    logout: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "white",
+    },
+    profile: {
+        fontSize: 15,
+        alignSelf: "center",
+        paddingBottom: 5,
+        fontWeight:"bold",
     },
     content: {
         height: "45%",
         justifyContent: "space-around",
     },
-    logout: {
-        fontSize: 20,
-        fontWeight: "bold",
-        color: "white",
-    }
-   
 });

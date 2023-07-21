@@ -1,5 +1,5 @@
 import { Button , IconButton } from "react-native-paper";
-import { Image, TouchableOpacity, View, Text } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import { supabase } from "../lib/supabase";
 import { useEffect, useState } from "react";
@@ -56,20 +56,44 @@ export default function Updatepic() {
     
 
     return (
-    <SafeAreaView>
-        <View style = {{backgroundColor:'white'}}>
-            <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.back()}/>
+    <SafeAreaView style= {{backgroundColor: "#FFCECE", flex: 1}}>
+        <View style = {{backgroundColor:'#FFCECE'}}>
+            <IconButton style = {{backgroundColor: '#FFCECE'}} icon = 'arrow-left' onPress={() => router.back()}/>
         </View>
 
         <View>
             <TouchableOpacity onPress={() => handleAddImage()}>
-                <Image source = {{uri:image}} style = {{width: '100%', height: undefined, aspectRatio: 1}}/>
+                <Image source = {{uri:image}} style = {styles.pic}/>
             </TouchableOpacity>
         </View>
         <View>
-            <Button onPress={() => handleSubmit()}>Update Profile Picture</Button>
+            <Button onPress={() => handleSubmit()}>
+                <Text style= {styles.text}>Update Profile Picture</Text></Button>
             {errMsg !== "" && <Text>{errMsg}</Text>}
         </View>
     </SafeAreaView>
     )
 }
+//{width: '100%', height: undefined, aspectRatio: 1}
+
+const styles = StyleSheet.create( {
+
+    pic: {
+        height: undefined,
+        width: "80%",
+        aspectRatio: 1,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'black',
+        margin: 2,
+        marginRight: 10,
+        marginBottom: 12,
+        alignSelf: "center"
+    },
+
+    text: {
+        fontSize: 15,
+        color: "#5A1B1B",
+        alignSelf: "center",
+    }
+})

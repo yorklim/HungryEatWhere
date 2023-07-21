@@ -42,7 +42,9 @@ export default function LoginPage() {
                     textContentType='emailAddress'
                     value={email}
                     onChangeText={setEmail}
-                    style={styles.inputContainer} />
+                    style={styles.inputContainer}
+                    underlineColor="transparent"
+                    activeUnderlineColor="transparent" />
             </View>
             <View style={styles.subContainer}>
                 <View style= {{margin: 5}}>
@@ -55,7 +57,9 @@ export default function LoginPage() {
                     textContentType='password'
                     value={password}
                     onChangeText={setPassword}
-                    style={styles.inputContainer} />
+                    style={styles.inputContainer}
+                    underlineColor="transparent"
+                    activeUnderlineColor="transparent" />
             </View>
             <View>
                 <View style={styles.buttonContainer}>

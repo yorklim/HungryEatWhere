@@ -136,7 +136,7 @@ export default function Nearbypage() {
             longitude: store.lon,
             latitudeDelta: 0.003,
             longitudeDelta: 0.001})}>
-            <View style = {{flexDirection: 'row', alignItems: "center", borderBottomWidth:1}}>
+            <View style = {styles.restaurantContainer}>
                 <Image 
                     source = {{uri: store.image_url}}
                     style = {{
@@ -162,39 +162,78 @@ export default function Nearbypage() {
     }
 
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <PaperProvider style = {{flex:1}}>
+        <SafeAreaView style={styles.mainContainer}>
+            <PaperProvider style = {{flex: 1}}>
                 <Portal>
-                    <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: 'white', padding: 20, justifyContent:"center", alignItems:"center"}}>
-                        <Text>Filter Options</Text>
-                        <Text>Filter Cuisuine</Text>
-                        <DropDownPicker
-                            open = {open}
-                            value = {value}
-                            items= {items}
-                            setOpen = {setOpen}
-                            setValue={setValue}
-                            setItems={setItems}
-                        />
-                        <Text>Filter Distance</Text>
-                        <Text>Search Distance: {distfilter}km</Text>
-                        <View style = {styles.slider}>
-                            <Slider
-                                style ={{flex:1}}
-                                minimumValue={0}
-                                maximumValue={1}
-                                value={distfilter}
-                                onValueChange={(a) => setDistFilter(Math.trunc(a * 10)/10)}
-                                tapToSeek={false}
+                    <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: '#FB9999', padding: 20, justifyContent:"center", alignItems:"center", borderRadius:30, margin: 20}}>
+                        <Text style={styles.header}>Filter Options</Text>
+                        <View style= {styles.filterContainer}>
+                            <Text style= {styles.text}>Filter Cuisuine</Text>
+                            <DropDownPicker
+                                open = {open}
+                                value = {value}
+                                items= {items}
+                                setOpen = {setOpen}
+                                setValue={setValue}
+                                setItems={setItems}
                             />
                         </View>
-                        <Button onPress={applyfilter} mode="outlined">Confirm</Button>
+                        
+                        <View style= {styles.filterContainer}>
+                            <Text style= {styles.text}>Filter Distance</Text>
+                            <Text style= {styles.smallText}>Search Distance: {distfilter}km</Text>
+                            <View style = {styles.slider}>
+                                <Slider
+                                    style ={{flex:1}}
+                                    minimumValue={0}
+                                    maximumValue={1}
+                                    value={distfilter}
+                                    onValueChange={(a) => setDistFilter(Math.trunc(a * 10)/10)}
+                                    tapToSeek={false}
+                                />
+                            </View>
+                        </View>
+                        
+                        <Button onPress={applyfilter} mode="outlined" style={{backgroundColor: "white"}}><Text style={{color: "#5A1B1B"}}>Confirm</Text></Button>
                     </Modal>
                 </Portal>
+                <View style={styles.search}>
+                <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.back()}/>
+                {/* <TextInput style={{flex:1}} value = {address} onChangeText={setAddress}/>
+                <IconButton icon = 'arrow-right' onPress={geocode}/> */}
+                <GooglePlacesAutocomplete
+                styles={{ textInput: styles.input}}
+                placeholder='Search'
+                fetchDetails
+                onPress={(data, details = null) => {
+                    setMapregion ({
+                        latitude: details.geometry.location.lat,
+                        longitude: details.geometry.location.lng,
+                        latitudeDelta: 0.003,
+                        longitudeDelta: 0.001
+                    });
+
+                    setCurrentloc ({
+                        latitude: details.geometry.location.lat,
+                        longitude: details.geometry.location.lng,
+                        latitudeDelta: 0.003,
+                        longitudeDelta: 0.001
+                    });
+            
+                    setRefereshing(true);
+
+                }}
+                query={{
+                    key: GOOGLE_API_KEY,
+                    language: 'en',
+                }}
+                />
+                    <IconButton style = {{backgroundColor: 'white'}} icon = 'crosshairs-gps' onPress={() =>getLocation()}/>
+                </View>
                 
                 <View style = {{flex : 1}}>
                     <MapView
-                        style ={{flex: 1, width: '100%', height: '100%'}}
+                        style ={styles.map}
                         provider={PROVIDER_GOOGLE}
                         region = {mapregion}
                     >
@@ -226,47 +265,13 @@ export default function Nearbypage() {
                         ))}
                     </MapView>
     
-                <View style={{flex : 2}}>
+                <View style={styles.restaurantList}>
                     <FlatList
                         data = {restaurant}
                         renderItem = {({item}) => <RestaurantDisplay store={item}/>}
                         ListEmptyComponent = {<Text>No Nearby Restaurant with Current Filter, Try Increasing Filter Distance</Text>}
                     />
                 </View>
-            </View>
-            
-            <View style={styles.search}>
-                <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.back()}/>
-                {/* <TextInput style={{flex:1}} value = {address} onChangeText={setAddress}/>
-                <IconButton icon = 'arrow-right' onPress={geocode}/> */}
-                <GooglePlacesAutocomplete
-                styles={{ textInput: styles.input}}
-                placeholder='Search'
-                fetchDetails
-                onPress={(data, details = null) => {
-                    setMapregion ({
-                        latitude: details.geometry.location.lat,
-                        longitude: details.geometry.location.lng,
-                        latitudeDelta: 0.003,
-                        longitudeDelta: 0.001
-                    });
-
-                    setCurrentloc ({
-                        latitude: details.geometry.location.lat,
-                        longitude: details.geometry.location.lng,
-                        latitudeDelta: 0.003,
-                        longitudeDelta: 0.001
-                    });
-            
-                    setRefereshing(true);
-
-                }}
-                query={{
-                    key: GOOGLE_API_KEY,
-                    language: 'en',
-                }}
-            />
-                <IconButton style = {{backgroundColor: 'white'}} icon = 'crosshairs-gps' onPress={() =>getLocation()}/>
             </View>
             
             <FAB
@@ -288,11 +293,17 @@ export default function Nearbypage() {
 }
 
 const styles = StyleSheet.create({
+    mainContainer: {
+        flex: 1,
+        backgroundColor: "#FB9999",
+    },
     search: {
+        height: "auto",
         flexDirection:"row", 
         alignItems:'flex-start',
-        position:'absolute',
         backgroundColor: "white",
+        margin: 5,
+        borderRadius: 20,
     },
     input: {
         top: 5,
@@ -310,7 +321,58 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 0,
         alignSelf: 'center'
+    },
+    map: {
+        flex: 1,
+        height: "100%",
+        width: "auto",
+        borderRadius: 20,
+        margin: 5,
+    },
+    image: {
+        height: 90,
+        width: 160,
+        objectFit: 'contain',
+    },
+    restaurantList: {
+        flex: 2,
+    },
+    restaurantContainer: {
+        flexDirection: 'row',
+        alignItems: "center",
+        borderRadius: 20,
+        backgroundColor: "#FFE1E1",
+        margin: 5,
+        overflow: "hidden"
+    },
+    header: {
+        fontSize: 25,
+        color: "white",
+        fontWeight: 600,
+        marginBottom: 5
+    },
+    text: {
+        fontSize: 20,
+        color: "#5A1B1B",
+        fontWeight: 600,
+        margin:3,
+        marginTop: 15
+    },
+    smallText: {
+        fontSize: 12,
+        color: "#5A1B1B",
+        fontWeight: 600,
+    },
+
+    filterContainer: {
+        backgroundColor: "#FFCECE",
+        borderRadius: 20,
+        marginVertical: 5,
+        height: 112,
+        width: 372,
+        paddingHorizontal: 15
     }
+
 });
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

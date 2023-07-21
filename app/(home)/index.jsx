@@ -40,27 +40,27 @@ export default function Homepage() {
     },[])
 
     return (
-        <SafeAreaView style = {{flex : 1 ,gap : 10}}>
+        <SafeAreaView style = {{flex : 1 ,gap : 10, backgroundColor: "#FFEDD2"}}>
             <View style = {styles.topbar}>
-                <Text style = {{flex : 1 , marginLeft:10, fontSize:25}}>Home Page</Text>
+                <Text style = {styles.headerText}>Home</Text>
                 <Image style = {styles.icon}
                     source = {require("../../assets/profilepic.png")}/>
             </View>
             <View style = {styles.content}>
                 <TouchableOpacity onPress={() => dailypress()}>
-                    <Image source = {{uri:daily.url}} style={{width:"95%", height:undefined, aspectRatio:16/9}}/>
+                    <Image source = {{uri:daily.url}} style={{width:"95%", height:undefined, aspectRatio:16/10, borderRadius: 10}}/>
                 </TouchableOpacity>
 
                 <TouchableOpacity style = {styles.button} onPress={() => router.replace('/recommend')}>
-                    <Text style = {styles.buttontext}>Recommend Me</Text>
+                    <Text style = {styles.buttonText}>Recommend Me</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style = {styles.button} onPress={() => router.push('/nearby')}>
-                    <Text style = {styles.buttontext}>Nearby Restuarant</Text>
+                    <Text style = {styles.buttonText}>Nearby Restuarant</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style = {styles.button} onPress={() => router.push('/history')}>
-                    <Text style = {styles.buttontext}>Recommendation History</Text>
+                    <Text style = {styles.buttonText}>Recommendation History</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -76,32 +76,46 @@ const styles =StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         margin: 2,
-
+        marginRight: 10,
     },
 
     topbar: {
-        backgroundColor: 'orange',
+        backgroundColor: '#FFEDD2',
         flexDirection: 'row',
         alignItems:'center',
-        flex : 1
+        height: 60
     },
 
     content: {
-        flex : 9,
+        paddingTop: 10,
+        height: "100%",
         flexDirection: 'column',
         alignItems: "center",
-        gap: 10
+        gap: 10,
+        backgroundColor: "#FB9999",
     },
 
     button : {
         height: 100,
         width: '95%',
         borderRadius: 25,
-        borderColor: 'black',
+        borderColor: 'white',
         borderWidth: 2,
-        backgroundColor: 'orange',
+        backgroundColor: '#FFCECE',
         justifyContent: 'center',
         alignItems:'center',
         underlayColor : 'orange'
     },
+    headerText: {
+        flex : 1,
+        marginLeft: 30, 
+        fontSize: 30,
+        fontWeight: "bold",
+        color: "#FB9999",
+    },
+    buttonText: {
+        fontWeight: "bold",
+        fontSize: 18,
+        color: "#643939",
+    }
 });

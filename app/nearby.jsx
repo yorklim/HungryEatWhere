@@ -231,7 +231,7 @@ export default function Nearbypage() {
                     <IconButton style = {{backgroundColor: 'white'}} icon = 'crosshairs-gps' onPress={() =>getLocation()}/>
                 </View>
                 
-                <View style = {{flex : 1}}>
+                <View style = {styles.map}>
                     <MapView
                         style ={styles.map}
                         provider={PROVIDER_GOOGLE}
@@ -269,7 +269,7 @@ export default function Nearbypage() {
                     <FlatList
                         data = {restaurant}
                         renderItem = {({item}) => <RestaurantDisplay store={item}/>}
-                        ListEmptyComponent = {<Text>No Nearby Restaurant with Current Filter, Try Increasing Filter Distance</Text>}
+                        ListEmptyComponent = {<Text style={styles.smallFont}>No Nearby Restaurant with Current Filter, Try Increasing Filter Distance</Text>}
                     />
                 </View>
             </View>
@@ -305,6 +305,13 @@ const styles = StyleSheet.create({
         margin: 5,
         borderRadius: 20,
     },
+
+    smallFont: {
+        color: "#5A1B1B",
+        fontSize: 12,
+        alignSelf: "center"
+    },
+    
     input: {
         top: 5,
     },

@@ -107,7 +107,7 @@ export default function Recodaily() {
             longitude: store.lon,
             latitudeDelta: 0.003,
             longitudeDelta: 0.001})}>
-            <View style = {{flexDirection: 'row', alignItems: "center", borderBottomWidth:1}}>
+            <View style = {styles.restaurantContainer}>
                 <Image 
                     source = {{uri: store.image_url}}
                     style = {{
@@ -142,7 +142,7 @@ export default function Recodaily() {
     }
 
     return (
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: "#FB9999"}}>
             <PaperProvider style = {{flex:1}}>
                 <Portal>
                     <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: 'white', padding: 20, justifyContent:"center", alignItems:"center"}}>
@@ -165,7 +165,7 @@ export default function Recodaily() {
                 
                 <View style = {{flex : 1}}>
                     <MapView
-                        style ={{flex: 1, width: '100%', height: '100%'}}
+                        style ={styles.map}
                         provider={PROVIDER_GOOGLE}
                         region = {mapregion}
                     >
@@ -198,15 +198,15 @@ export default function Recodaily() {
                     </MapView>
     
                 <View style={{flex : 2}}>
-                    <View style = {{borderBottomWidth: 1}}>
-                        <Text style = {{fontWeight:'bold', fontSize:20, marginTop: 5, marginBottom: 5}}
+                    <View>
+                        <Text style = {{fontWeight:'bold', fontSize:20, marginTop: 5, marginBottom: 5, alignSelf: "center", color: "#5A1B1B"}}
                         // eslint-disable-next-line react/no-unescaped-entities
                         > Finding "{description}" Related Restaurants Around You!</Text>
                     </View>
                     <FlatList
                         data = {restaurant}
                         renderItem = {({item}) => <RestaurantDisplay store={item}/>}
-                        ListEmptyComponent = {<Text>No Nearby Restaurant with Current Filter, Try Increasing Filter Distance</Text>}
+                        ListEmptyComponent = {<Text style={styles.smallFont}>No Nearby Restaurant with Current Filter, Try Increasing Filter Distance</Text>}
                     />
                 </View>
             </View>
@@ -263,11 +263,32 @@ export default function Recodaily() {
 }
 
 const styles = StyleSheet.create({
+    
+    input: {
+        top: 5,
+    },
+    fab:{
+        position: "absolute",
+        margin: 30,
+        bottom: 0,
+        right: 0
+    },
+    slider: {
+        flexDirection:'row',
+        alignItems:'center',
+    },
+    random: {
+        position: "absolute",
+        bottom: 0,
+        alignSelf: 'center'
+    },
     search: {
         flexDirection:"row", 
         alignItems:'flex-start',
         position:'absolute',
         backgroundColor: "white",
+        margin: 5,
+        borderRadius: 20,
     },
     input: {
         top: 5,
@@ -286,6 +307,89 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 0,
         alignSelf: 'center'
+    },
+    rest: {
+        flexDirection: 'row',
+        alignItems: "center", 
+        margin: 5,
+        border: 3,
+        borderColor: "white",
+        borderRadius: 30,
+        backgroundColor: "#FFE1E1"
+    },
+
+    input: {
+        top: 5,
+    },
+    fab:{
+        position: "absolute",
+        bottom: 0,
+        right: "5%"
+    },
+    slider: {
+        flexDirection:'row',
+        alignItems:'center',
+    },
+    random: {
+        position: "absolute",
+        bottom: 0,
+        alignSelf: 'center'
+    },
+    map: {
+        flex: 1,
+        height: "100%",
+        width: "auto",
+        borderRadius: 20,
+        margin: 5,
+        marginTop: 70
+    },
+    image: {
+        height: 90,
+        width: 160,
+        objectFit: 'contain',
+    },
+    restaurantList: {
+        flex: 2,
+    },
+    restaurantContainer: {
+        flexDirection: 'row',
+        alignItems: "center",
+        borderRadius: 20,
+        backgroundColor: "#FFE1E1",
+        margin: 5,
+        overflow: "hidden"
+    },
+    header: {
+        fontSize: 25,
+        color: "white",
+        fontWeight: 600,
+        marginBottom: 5
+    },
+    text: {
+        fontSize: 20,
+        color: "#5A1B1B",
+        fontWeight: 600,
+        margin:3,
+    },
+    smallText: {
+        fontSize: 12,
+        color: "#5A1B1B",
+        fontWeight: 600,
+    },
+
+    filterContainer: {
+        backgroundColor: "#FFCECE",
+        borderRadius: 20,
+        marginVertical: 5,
+        height: 112,
+        width: 372,
+        paddingHorizontal: 15
+    },
+
+    smallFont: {
+        color: "#5A1B1B",
+        fontSize: 12,
+        alignSelf: "center"
     }
 });
 

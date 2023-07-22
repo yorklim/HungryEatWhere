@@ -106,21 +106,19 @@ export default function Reconearby() {
             longitude: store.lon,
             latitudeDelta: 0.003,
             longitudeDelta: 0.001})}>
-            <View style={styles.rest}>
-                <Image 
-                    source = {{uri: store.image_url}}
-                    style = {{
-                        height: 90,
-                        width: 160,
-                        objectFit: 'contain',
-                    }}
-                />
-                <View style= {{margin: 10, flex : 1}}>
-                    <Text>{store.address}</Text>
-                    <TouchableOpacity onPress= {()=> gorestaurantinfo(store)}>
-                        <Text style= {{color:"blue"}}>More Info</Text>
-                    </TouchableOpacity>
-                    <Text>{Math.round(getDistanceFromLatLonInM(currentloc.latitude, currentloc.longitude, store.lat, store.lon))}m</Text>
+            <View style = {styles.restaurantContainer}>
+                <View style={styles.rest}>
+                    <Image 
+                        source = {{uri: store.image_url}}
+                        style = {styles.image}
+                    />
+                    <View style= {{margin: 10, flex : 1}}>
+                        <Text>{store.address}</Text>
+                        <TouchableOpacity onPress= {()=> gorestaurantinfo(store)}>
+                            <Text style= {{color:"blue"}}>More Info</Text>
+                        </TouchableOpacity>
+                        <Text>{Math.round(getDistanceFromLatLonInM(currentloc.latitude, currentloc.longitude, store.lat, store.lon))}m</Text>
+                    </View>
                 </View>
             </View>
         </Pressable>
@@ -141,13 +139,13 @@ export default function Reconearby() {
     }
 
     return (
-        <SafeAreaView style={{flex: 1}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: "#FB9999"}}>
             <PaperProvider style = {{flex:1}}>
                 <Portal>
-                    <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: 'white', padding: 20, justifyContent:"center", alignItems:"center"}}>
-                        <Text>Filter Options</Text>
-                        <Text>Filter Distance</Text>
-                        <Text>Search Distance: {distfilter}km</Text>
+                    <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: '#FB9999', padding: 20, justifyContent:"center", alignItems:"center", borderRadius:30, margin: 20}}>
+                        <Text style={styles.header}>Filter Options</Text>
+                        <Text style= {styles.text}>Filter Distance</Text>
+                        <Text style= {styles.smallText}>Search Distance: {distfilter}km</Text>
                         <View style = {styles.slider}>
                             <Slider
                                 style ={{flex:1}}
@@ -158,13 +156,13 @@ export default function Reconearby() {
                                 tapToSeek={false}
                             />
                         </View>
-                        <Button onPress={applyfilter} mode="outlined">Confirm</Button>
+                        <Button onPress={applyfilter} mode="outlined" style= {{backgroundColor: "white"}}><Text style={{color: "#5A1B1B"}}>Confirm</Text></Button>
                     </Modal>
                 </Portal>
                 
                 <View style = {{flex : 1}}>
                     <MapView
-                        style ={{flex: 1, width: '100%', height: '100%'}}
+                        style ={styles.map}
                         provider={PROVIDER_GOOGLE}
                         region = {mapregion}
                     >
@@ -198,14 +196,14 @@ export default function Reconearby() {
                     </MapView>
     
                 <View style={{flex : 2}}>
-                    <View style = {{borderBottomWidth: 1}}>
-                        <Text style = {{fontWeight:'bold', fontSize:20, marginTop: 5, marginBottom: 5}}
+                    <View>
+                        <Text style = {{fontWeight:'bold', fontSize:20, marginTop: 5, marginBottom: 5, alignSelf: "center", color: "#5A1B1B"}}
                         > Finding {cuisine} Cuisine Around You!</Text>
                     </View>
                     <FlatList
                         data = {restaurant}
                         renderItem = {({item}) => <RestaurantDisplay store={item}/>}
-                        ListEmptyComponent = {<Text>No Nearby Restaurant with Current Filter, Try Increasing Filter Distance</Text>}
+                        ListEmptyComponent = {<Text style={styles.smallFont}>No Nearby Restaurant with Current Filter, Try Increasing Filter Distance</Text>}
                     />
                 </View>
             </View>
@@ -268,6 +266,8 @@ const styles = StyleSheet.create({
         alignItems:'flex-start',
         position:'absolute',
         backgroundColor: "white",
+        margin: 5,
+        borderRadius: 20,
     },
     input: {
         top: 5,
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     random: {
         position: "absolute",
         bottom: 0,
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     rest: {
         flexDirection: 'row',
@@ -294,7 +294,81 @@ const styles = StyleSheet.create({
         border: 3,
         borderColor: "white",
         borderRadius: 30,
-        backgroundColor: "red"
+        backgroundColor: "#FFE1E1"
+    },
+
+    input: {
+        top: 5,
+    },
+    fab:{
+        position: "absolute",
+        bottom: 0,
+        right: "5%"
+    },
+    slider: {
+        flexDirection:'row',
+        alignItems:'center',
+    },
+    random: {
+        position: "absolute",
+        bottom: 0,
+        alignSelf: 'center'
+    },
+    map: {
+        flex: 1,
+        height: "100%",
+        width: "auto",
+        borderRadius: 20,
+        margin: 5,
+        marginTop: 70
+    },
+    image: {
+        height: 90,
+        width: 160,
+        objectFit: 'contain',
+    },
+    restaurantList: {
+        flex: 2,
+    },
+    restaurantContainer: {
+        flexDirection: 'row',
+        alignItems: "center",
+        borderRadius: 20,
+        backgroundColor: "#FFE1E1",
+        margin: 5,
+        overflow: "hidden"
+    },
+    header: {
+        fontSize: 25,
+        color: "white",
+        fontWeight: 600,
+        marginBottom: 5
+    },
+    text: {
+        fontSize: 20,
+        color: "#5A1B1B",
+        fontWeight: 600,
+        margin:3,
+    },
+    smallText: {
+        fontSize: 12,
+        color: "#5A1B1B",
+        fontWeight: 600,
+    },
+
+    filterContainer: {
+        backgroundColor: "#FFCECE",
+        borderRadius: 20,
+        marginVertical: 5,
+        height: 112,
+        width: 372,
+        paddingHorizontal: 15
+    },
+
+    smallFont: {
+        color: "#5A1B1B",
+        fontSize: 12,
+        alignSelf: "center"
     }
 });
 

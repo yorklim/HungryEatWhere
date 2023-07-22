@@ -106,7 +106,7 @@ export default function Reconearby() {
             longitude: store.lon,
             latitudeDelta: 0.003,
             longitudeDelta: 0.001})}>
-            <View style = {{flexDirection: 'row', alignItems: "center", borderBottomWidth:1}}>
+            <View style={styles.rest}>
                 <Image 
                     source = {{uri: store.image_url}}
                     style = {{
@@ -116,11 +116,11 @@ export default function Reconearby() {
                     }}
                 />
                 <View style= {{margin: 10, flex : 1}}>
-                <Text>{store.address}</Text>
-                <TouchableOpacity onPress= {()=> gorestaurantinfo(store)}>
-                    <Text style= {{color:"blue"}}>More Info</Text>
-                </TouchableOpacity>
-                <Text>{Math.round(getDistanceFromLatLonInM(currentloc.latitude, currentloc.longitude, store.lat, store.lon))}m</Text>
+                    <Text>{store.address}</Text>
+                    <TouchableOpacity onPress= {()=> gorestaurantinfo(store)}>
+                        <Text style= {{color:"blue"}}>More Info</Text>
+                    </TouchableOpacity>
+                    <Text>{Math.round(getDistanceFromLatLonInM(currentloc.latitude, currentloc.longitude, store.lat, store.lon))}m</Text>
                 </View>
             </View>
         </Pressable>
@@ -286,6 +286,15 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 0,
         alignSelf: 'center'
+    },
+    rest: {
+        flexDirection: 'row',
+        alignItems: "center", 
+        margin: 5,
+        border: 3,
+        borderColor: "white",
+        borderRadius: 30,
+        backgroundColor: "red"
     }
 });
 

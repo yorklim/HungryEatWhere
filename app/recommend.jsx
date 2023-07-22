@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "../lib/supabase";
 import { Button , IconButton } from "react-native-paper";
@@ -9,7 +9,7 @@ import { useRouter } from "expo-router";
 export default function Recommend() {
     const [pref,setPref] = useState([])
     const [refreshing,setRefreshing] = useState(false);
-    const [textdisplay, setTextdisplay] = useState('Click Button for Recommendation');
+    const [textdisplay, setTextdisplay] = useState(' ');
     const [selected, setSelected] = useState("");
     const [clicked,setClicked] = useState(false)
     const { user } = useAuth();
@@ -135,17 +135,68 @@ export default function Recommend() {
 
 
     return (
-        <SafeAreaView style = {{flex:1}}>
-            <View style = {{backgroundColor:'white'}}>
-                <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.replace('/')}/>
+        <SafeAreaView style = {styles.mainContainer}>
+            <View style = {styles.topbar}>
+                <IconButton style = {{backgroundColor: '#FFEDD2'}} icon = 'arrow-left' onPress={() => router.replace('/')}/>
             </View>
-            <View style = {{flex: 1, alignItems:'center', justifyContent:'center', alignContent:'center'}}>
-                <Text>{textdisplay}</Text>
-                <Button onPress= {buttonPress}>{!clicked ? "Press" : "Recommend Something Else"}</Button>
-                {clicked && <Button onPress= {() => updatePref()}>I choose this</Button>}
+
+            <View style = {styles.content}>
+                <Text style= {styles.message}>{textdisplay}</Text>
+                <View styles= {styles.button}>
+                    <TouchableOpacity onPress= {buttonPress} style= {styles.button}>{!clicked ? <Text style = {styles.font}>Click to generate</Text> : <Text style = {styles.font}>Recommend Something Else</Text>}</TouchableOpacity>
+                {clicked && <TouchableOpacity onPress= {() => updatePref()} style= {styles.button}><Text style= {styles.font}>I choose this</Text></TouchableOpacity>}
                 {errMsg!=="" && <Text>{errMsg}</Text>}
-                
+                </View>
             </View>
         </SafeAreaView>
     )
 }
+
+const styles =StyleSheet.create({
+    
+    topbar: {
+        backgroundColor: "#FFEDD2",
+        height: 70,
+        justifyContent: "center",
+    },
+
+    mainContainer: {
+        flex:1,
+        backgroundColor: "#FFEDD2",
+    },
+
+    content: {
+        backgroundColor: "#FB9999",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        alignContent:'center',
+    },
+
+    font: {
+        color: "#643939",
+        fontWeight: "600",
+        fontSize: 20,
+        // alignSelf: "center",
+    },
+
+    button: {
+        borderRadius: 25,
+        borderColor: 'white',
+        borderWidth: 2,
+        backgroundColor: '#FFCECE',
+        justifyContent: 'center',
+        alignItems:'center',
+        underlayColor : 'white',
+        padding: 20,
+        paddingHorizontal: 40,
+        margin: 10
+    },
+
+    message: {
+        color: "white",
+        fontSize: 25,
+        fontWeight: "bold",
+        margin: 10
+    }
+})

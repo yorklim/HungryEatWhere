@@ -104,7 +104,7 @@ const styles =StyleSheet.create({
         backgroundColor: '#FFCECE',
         justifyContent: 'center',
         alignItems:'center',
-        underlayColor : 'orange'
+        underlayColor : '#FFCECE'
     },
     headerText: {
         flex : 1,

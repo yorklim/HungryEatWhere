@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "orbital-app",
+    "owner": "orbitalproject",
     "scheme": "orbital-app",
     "slug": "orbital-app",
     "version": "1.0.0",

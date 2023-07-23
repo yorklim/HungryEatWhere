@@ -144,17 +144,19 @@ export default function Reconearby() {
                 <Portal>
                     <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: '#FB9999', padding: 20, justifyContent:"center", alignItems:"center", borderRadius:30, margin: 20}}>
                         <Text style={styles.header}>Filter Options</Text>
-                        <Text style= {styles.text}>Filter Distance</Text>
-                        <Text style= {styles.smallText}>Search Distance: {distfilter}km</Text>
-                        <View style = {styles.slider}>
-                            <Slider
-                                style ={{flex:1}}
-                                minimumValue={0}
-                                maximumValue={1}
-                                value={distfilter}
-                                onValueChange={(a) => setDistFilter(Math.trunc(a * 10)/10)}
-                                tapToSeek={false}
-                            />
+                        <View style= {styles.filterContainer}> 
+                            <Text style= {styles.text}>Filter Distance</Text>
+                            <Text style= {styles.smallText}>Search Distance: {distfilter}km</Text>
+                            <View style = {styles.slider}>
+                                <Slider
+                                    style ={{flex:1}}
+                                    minimumValue={0}
+                                    maximumValue={1}
+                                    value={distfilter}
+                                    onValueChange={(a) => setDistFilter(Math.trunc(a * 10)/10)}
+                                    tapToSeek={false}
+                                />
+                            </View>
                         </View>
                         <Button onPress={applyfilter} mode="outlined" style= {{backgroundColor: "white"}}><Text style={{color: "#5A1B1B"}}>Confirm</Text></Button>
                     </Modal>
@@ -360,9 +362,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFCECE",
         borderRadius: 20,
         marginVertical: 5,
-        height: 112,
-        width: 372,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        alignItems: "center",
+        paddingTop: 5
     },
 
     smallFont: {

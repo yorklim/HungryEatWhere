@@ -44,7 +44,7 @@ export default function Homepage() {
             <View style = {styles.topbar}>
                 <Text style = {styles.headerText}>Home</Text>
                 <Image style = {styles.icon}
-                    source = {require("../../assets/profilepic.png")}/>
+                    source = {require("../../assets/logo.png")}/>
             </View>
             <View style = {styles.content}>
                 <TouchableOpacity onPress={() => dailypress()}>

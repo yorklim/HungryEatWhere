@@ -168,7 +168,7 @@ export default function Nearbypage() {
                     <Modal visible={visible} onDismiss={() => setVisible(false)} contentContainerStyle={{backgroundColor: '#FB9999', padding: 20, justifyContent:"center", alignItems:"center", borderRadius:30, margin: 20}}>
                         <Text style={styles.header}>Filter Options</Text>
                         <View style= {styles.filterContainer}>
-                            <Text style= {styles.text}>Filter Cuisuine</Text>
+                            <Text style= {styles.text}>Filter Cuisine</Text>
                             <DropDownPicker
                                 open = {open}
                                 value = {value}
@@ -177,9 +177,6 @@ export default function Nearbypage() {
                                 setValue={setValue}
                                 setItems={setItems}
                             />
-                        </View>
-                        
-                        <View style= {styles.filterContainer}>
                             <Text style= {styles.text}>Filter Distance</Text>
                             <Text style= {styles.smallText}>Search Distance: {distfilter}km</Text>
                             <View style = {styles.slider}>
@@ -192,9 +189,9 @@ export default function Nearbypage() {
                                     tapToSeek={false}
                                 />
                             </View>
+                            <Button onPress={applyfilter} mode="outlined" style={{backgroundColor: "white"}}><Text style={{color: "#5A1B1B"}}>Confirm</Text></Button>
                         </View>
                         
-                        <Button onPress={applyfilter} mode="outlined" style={{backgroundColor: "white"}}><Text style={{color: "#5A1B1B"}}>Confirm</Text></Button>
                     </Modal>
                 </Portal>
                 <View style={styles.search}>
@@ -375,8 +372,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFCECE",
         borderRadius: 20,
         marginVertical: 5,
-        height: 112,
-        width: 372,
         paddingHorizontal: 15
     }
 

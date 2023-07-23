@@ -1,7 +1,7 @@
 import { IconButton, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { FlatList, View } from "react-native";
+import { StyleSheet, FlatList, View } from "react-native";
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 
@@ -20,9 +20,9 @@ export default function History() {
 
     function HistoryDisplay({ item }) {
         return (
-            <View style = {{ borderBottomWidth: 1}}>
-                <Text style = {{fontWeight: "bold", fontSize: 20}}>{display(item[0])}</Text>
-                <Text style = {{fontSize:15}}>{item[1]}</Text>
+            <View style={styles.box}>
+                <Text style = {styles.cuisine}>{display(item[0])}</Text>
+                <Text style = {styles.description}>{item[1]}</Text>
             </View>
         )
     }
@@ -60,13 +60,13 @@ export default function History() {
     }
 
     return (
-        <SafeAreaView>
-            <View style = {{backgroundColor:'white'}}>
-                <IconButton style = {{backgroundColor: 'white'}} icon = 'arrow-left' onPress={() => router.replace('/')}/>
+        <SafeAreaView style= {{backgroundColor: "#FFCECE", flex: 1}}>
+            <View style = {{backgroundColor:'#FFCECE'}}>
+                <IconButton style = {{backgroundColor: '#FFCECE'}} icon = 'arrow-left' onPress={() => router.replace('/')}/>
             </View>
             <View>
-                <View style = {{borderBottomWidth: 1}}>
-                    <Text style = {{fontWeight: "bold", fontSize: 30}}>
+                <View style>
+                    <Text style = {styles.header}>
                         Recent Recommendations
                     </Text>
                 </View>
@@ -79,3 +79,42 @@ export default function History() {
         </SafeAreaView>
     )
 }
+const styles =StyleSheet.create({
+    header: {
+        fontWeight: "bold", 
+        fontSize: 30,
+        alignSelf: "center",
+        color: "#5A1B1B",
+        marginBottom: 10,
+    },
+
+    box: {
+        borderRadius: 20,
+        backgroundColor: "#FB9999",
+        alignItems: "center",
+        margin: 5,
+        borderWidth:2,
+        padding: 5,
+        borderColor: "white"
+    },
+
+    content: {
+        flex: 1,
+        alignItems: "space-around",
+
+    },
+
+    cuisine: {
+        fontSize: 18,
+        color: "5A1B1B",
+        fontWeight: "bold",
+        marginBottom: 3
+    },
+
+    description: {
+        fontSize: 15,
+        color: "#5A1B1B",
+    }
+
+})
+
